@@ -1,0 +1,27 @@
+.button {
+    width: 265px;
+    padding: 12px;
+    border-radius: 20px;
+    border: solid 1px;
+    cursor: pointer;
+
+    font-weight: 800;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+.primaria {
+    background-color: #f3ba6e;
+    color: #5c3825;
+    border-color: #5c3825;
+}
+
+.secundaria {
+    background-color: #5c3825;
+    color: #f9e6c9;
+    border-color: #f3ba6e;
+}

@@ -1,0 +1,88 @@
+body {
+    margin: 0;
+    background-color: #feddae;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+
+    width: 280px;
+    height: 100vh;
+
+    padding: 20px;
+
+    box-sizing: border-box;
+
+    background-color: #45271a;
+    background-image: url("./../../../assets/textura_manga.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    border-right: 5px solid #714f33;
+    border-top-right-radius: 40px;
+    border-bottom-right-radius: 40px;
+
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.menu .logo {
+    display: flex;
+    justify-content: center;
+    margin-left: 30px;
+}
+
+.links {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.perfil {
+    margin-top: auto;
+    margin-bottom: 3em;
+
+    display: flex;
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 25px;
+
+    border-radius: 15px;
+
+    background-color: #614030;
+    border: 2px solid #714f33;
+    box-shadow: 2px 2px 2px #714f33;
+}
+
+.perfil img {
+    width: 60px;
+    height: 60px;
+
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.perfil-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.perfil-info p {
+    margin: 0;
+    color: #f8e8c8;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.perfil-info a {
+    color: #d8b98c;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.sair {
+    margin-top: 20px;
+}
+

@@ -1,0 +1,78 @@
+body {
+    margin: 0;
+}
+
+.login-page {
+    min-height: 100vh;
+    background-image: url("../../assets/fundo_login.png");
+    background-size: cover;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 40%;
+    height: 100vh;
+
+    padding: 20px 45px;
+    box-sizing: border-box;
+
+    background-color: #45271a;
+    background-image: url("./../../assets/textura_manga.png");
+    background-repeat: no-repeat;
+    background-position: 0%;
+    background-size: 800px;
+
+    border-right: 5px solid #714f33;
+    box-shadow: 2px 2px 4px #714f33;
+    border-top-right-radius: 40px;
+    border-bottom-right-radius: 40px;
+}
+
+.logo {
+    width: 180px;
+    margin-bottom: 10px;
+}
+
+.login-container h2 {
+    margin: 0;
+    color: #f3ba6e;
+    font-size: 22px;
+    text-transform: uppercase;
+}
+
+.login-subtitulo {
+    margin: 5px 0 20px;
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
+}
+
+.login-container label {
+    width: 90%;
+    margin: 8px 0 4px;
+
+    color: #f9e6c9;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.login-container .input-login {
+    width: 90%;
+}
+
+.login-container .input-login input {
+    font-size: 14px;
+}
+
+.login-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+
+    width: 100%;
+    margin-top: auto;
+    margin-bottom: 35px;
+}

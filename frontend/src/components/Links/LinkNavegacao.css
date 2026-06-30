@@ -1,0 +1,20 @@
+.link-navegacao {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    color: #f8e8c8;
+    text-decoration: none;
+
+    font-size: 1.8rem;
+    font-weight: 500;
+
+    padding: 8px 0;
+
+    transition: all 0.2s ease;
+}
+
+.link-navegacao:hover {
+    color: white;
+    transform: translateX(5px);
+}
