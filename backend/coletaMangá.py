@@ -9,10 +9,10 @@
 # 9 - pega capa
 # 10 - pega autor
 # 11 - pega editora
-# 12 - pega ano de lançamento
-# 13 - pega o ultimo volume para saber a quantidade de volumes
-# 14 - pega o status
-# 15 - pega a demografia
+# 12 - pega data de lançamento(COLETA MAS NAO UTILIZA)
+# 13 - pega o status
+# 14 - pega a demografia
+# 15 - pega o ultimo volume para saber a quantidade de volumes
 
 # 16 - entra no primeiro volume
 # 17 - pega a capa do volume
@@ -72,46 +72,43 @@ sleep(1);
 primeiro_manga.click();
 
 # 9 - pega capa
-imagens = driver.find_elements(By.CSS_SELECTOR, "button.owl-thumb-item img")
+imagens = driver.find_elements(By.CSS_SELECTOR, "button.owl-thumb-item img");
 
 # Esse IF else serve para verificar com qual imagem vou ficar, a segunda imagem é sempre a preferencia
 if len(imagens) >= 2:
-    imagem = imagens[1].get_attribute("src")  # segunda imagem
+    imagem = imagens[1].get_attribute("src");  # segunda imagem
 else:
-    imagem = imagens[0].get_attribute("src")  # primeira imagem
+    imagem = imagens[0].get_attribute("src");  # primeira imagem
 
-print(imagem)
+print(imagem);
 
 # 10 - pega autor
-autores = driver.find_elements(By.XPATH, "//li[contains(., 'Autor')]//a")
+autores = driver.find_elements(By.XPATH, "//li[contains(., 'Autor')]//a");
 
-autor = next(
-    (a.text.strip() for a in autores if a.text.strip()),
-    "Desconhecido"
-)
+autor = next((a.text.strip() for a in autores if a.text.strip()), "Desconhecido");
 
-print("Autor:", autor)
+print("Autor:", autor);
 
 # 11 - pega editora
-editoras = driver.find_elements(
-    By.XPATH,
-    "//li[strong[contains(text(),'Editora')]]/a"
-)
+editoras = driver.find_elements(By.XPATH, "//li[strong[contains(text(),'Editora')]]/a");
 
-editora = next(
-    (e.text.strip() for e in editoras if e.text.strip()),
-    "Desconhecida"
-)
+editora = next((e.text.strip() for e in editoras if e.text.strip()), "Desconhecida");
 
-print("Editora:", editora)
+print("Editora:", editora);
 
-# 12 - pega ano de lançamento
+# 12 - pega data de lançamento(NAO UTILIZADO CASO QUEIRA UTILIZAR, AO FINAL CONFIGURE PARA USAR A DATA A MÃO)
+datasDeLancamento = driver.find_elements(By.XPATH, "//li[strong[contains(text(),'Data de Lançamento')]]/a");
 
-# 13 - pega o ultimo volume para saber a quantidade de volumes
+dataDeLancamento = next((e.text.strip() for e in datasDeLancamento if e.text.strip()), "Desconhecida");
 
-# 14 - pega o status
+print("Data de Lançamento:", dataDeLancamento);
 
-# 15 - pega a demografia
+# 13 - pega o status
+
+# 14 - pega a demografia
+
+# 15 - pega o ultimo volume para saber a quantidade de volumes
+
 
 # 16 - entra no primeiro volume
 
