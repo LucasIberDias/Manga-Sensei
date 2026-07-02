@@ -2,7 +2,7 @@ import Input from "../../components/Inputs/Input";
 import Button from "../../components/Buttons/Buttons";
 import ButtonLink from "../../components/Buttons/ButtonNavegacao";
 import Logo from "../../components/Logo";
-import "./Login.css";
+import "./login.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 

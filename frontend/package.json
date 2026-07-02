@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "config-git": "git config --global user.name \"LucasIberDias\" && git config --global user.email \"lucas.skuggar@gmail.com\""
   },
   "dependencies": {
     "console": "^0.7.2",

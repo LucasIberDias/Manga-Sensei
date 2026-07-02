@@ -15,6 +15,13 @@
 }
 
 .link-navegacao:hover {
-    color: white;
-    transform: translateX(5px);
+    background-color: #feddae;
+    color: #614030;
+
+    padding-left: 5px; 
+
+    border-radius: 15px;
+    border-right: 2px solid #614030;
+    box-shadow: 2px 2px 4px #614030;
 }
+
