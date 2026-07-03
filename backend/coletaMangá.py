@@ -9,15 +9,15 @@
 # 9 - pega capa
 # 10 - pega autor
 # 11 - pega editora
-# 12 - pega data de lançamento(COLETA MAS NAO UTILIZA)
-# 13 - pega o status
-# 14 - pega a demografia
-# 15 - pega o ultimo volume para saber a quantidade de volumes
+# 12 - pega a demografia
+# 13 - pega a quantidade de volumes
 
-# 16 - entra no primeiro volume
-# 17 - pega a capa do volume
-# 18 - pega o isbn do volume
-# 19 - faz novamente até coletar todos os volumes
+# 14 - entra no primeiro volume
+# 15 - pega a capa do volume
+# 16 - pega o isbn do volume
+# 17 - faz novamente até coletar todos os volumes
+# 18 - Cria o manga no banco de dados
+# 19 - Coloca seus respectivos volumes
 
 from selenium import webdriver;
 from selenium.webdriver.common.by import By;
@@ -25,7 +25,7 @@ from selenium.webdriver.common.keys import Keys;
 from time import sleep;
 from selenium.webdriver.support.ui import WebDriverWait;
 from selenium.webdriver.support import expected_conditions as EC;
-from selenium.webdriver.support.ui import Select
+from selenium.webdriver.support.ui import Select;
 
 # 1 - Entra no site
 driver = webdriver.Chrome();
@@ -38,47 +38,68 @@ barra = driver.find_element(By.ID, "search2_txt");
 # 3 - Coloca o mangá pesquisado
 barra.send_keys(input('Digite o nome do manga: \n'));
 barra.send_keys(Keys.ENTER);
-sleep(3);
+
+WebDriverWait(driver, 10).until(
+    EC.presence_of_element_located((By.CLASS_NAME, "box-produto"))
+);
 
 # 4 - Entra no primeiro mangá
-primeiro_manga = driver.find_element(By.CLASS_NAME, "box-produto");
-driver.execute_script("arguments[0].scrollIntoView();", primeiro_manga);
-sleep(1);
-primeiro_manga.click();
-sleep(2);
+primeiro_manga = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".box-produto .img-capa a")));
+
+driver.get(primeiro_manga.get_attribute("href"));
 
 # 5 - coloca todas as ediçoes
-driver.find_element(By.CSS_SELECTOR, "a[href*='/geek/colecao/']").click();
-sleep(3);
+WebDriverWait(driver, 10).until(
+    EC.element_to_be_clickable((By.CSS_SELECTOR, "a[href*='/geek/colecao/']"))
+).click();
 
 # 6 - pega o titulo do mangá
-titulo_manga = driver.find_element(By.CLASS_NAME, "titulo-categoria");
+titulo_manga = WebDriverWait(driver, 10).until(
+    EC.presence_of_element_located((By.CLASS_NAME, "titulo-categoria"))
+);
+
 print(titulo_manga.text);
 
 # 7 - coloca em ordem crescente
-ordenador = driver.find_element(By.ID, "ConteudoBodyMaster_ConteudoCorpo_CtlResultadoBusca_ddlOrdenacao");
+ordenador = WebDriverWait(driver, 10).until(
+    EC.presence_of_element_located((By.ID, "ConteudoBodyMaster_ConteudoCorpo_CtlResultadoBusca_ddlOrdenacao"))
+);
+
 select = Select(ordenador);
 select.select_by_value("8");
 
-sleep(3);
+WebDriverWait(driver, 10).until(
+    EC.presence_of_element_located((By.CLASS_NAME, "box-produto"))
+);
 
-# 8 - entra no primeiro mangá
-primeiro_manga = driver.find_element(By.CLASS_NAME, "box-produto");
+sleep(2);
 
-driver.execute_script("arguments[0].scrollIntoView();", primeiro_manga);
+# 8 - entra no primeiro mangá (CORRETO)
+nvm_primeiro_manga = WebDriverWait(driver, 10).until(
+    EC.presence_of_element_located((By.CSS_SELECTOR, ".box-produto .img-capa a"))
+);
 
-sleep(1);
+link = nvm_primeiro_manga.get_attribute("href");
 
-primeiro_manga.click();
+driver.get(link);
+
+WebDriverWait(driver, 10).until(
+    EC.presence_of_element_located((By.TAG_NAME, "body"))
+);
+
+sleep(2);
 
 # 9 - pega capa
 imagens = driver.find_elements(By.CSS_SELECTOR, "button.owl-thumb-item img");
 
-# Esse IF else serve para verificar com qual imagem vou ficar, a segunda imagem é sempre a preferencia
-if len(imagens) >= 2:
-    imagem = imagens[1].get_attribute("src");  # segunda imagem
+if not imagens:
+    print("Nenhuma imagem encontrada");
+    imagem = "";
 else:
-    imagem = imagens[0].get_attribute("src");  # primeira imagem
+    if len(imagens) >= 2:
+        imagem = imagens[1].get_attribute("src");
+    else:
+        imagem = imagens[0].get_attribute("src");
 
 print(imagem);
 
@@ -96,24 +117,36 @@ editora = next((e.text.strip() for e in editoras if e.text.strip()), "Desconheci
 
 print("Editora:", editora);
 
-# 12 - pega data de lançamento(NAO UTILIZADO CASO QUEIRA UTILIZAR, AO FINAL CONFIGURE PARA USAR A DATA A MÃO)
-datasDeLancamento = driver.find_elements(By.XPATH, "//li[strong[contains(text(),'Data de Lançamento')]]/a");
+# 12 - pega a demografia
+demografias = driver.find_elements(By.XPATH, "//li[strong[contains(text(),'Demografia')]]/a");
 
-dataDeLancamento = next((e.text.strip() for e in datasDeLancamento if e.text.strip()), "Desconhecida");
+demografia = next((e.text.strip() for e in demografias if e.text.strip()), "Desconhecida");
 
-print("Data de Lançamento:", dataDeLancamento);
+print("Demografia:", demografia);
 
-# 13 - pega o status
+# 13 - pega a quantidade de volumes
 
-# 14 - pega a demografia
+driver.back();
 
-# 15 - pega o ultimo volume para saber a quantidade de volumes
+WebDriverWait(driver, 10).until(
+    EC.presence_of_element_located((By.CLASS_NAME, "box-produto"))
+);
 
+sleep(2);
 
-# 16 - entra no primeiro volume
+volumes = driver.find_elements(By.CLASS_NAME, "num-edicao");
+qntd_volumes = len(volumes);
 
-# 17 - pega a capa do volume
+print("Quantidade de volumes:", qntd_volumes);
 
-# 18 - pega o isbn do volume
+# 14 - entra no primeiro volume
 
-# 19 - faz novamente até coletar todos os volumes
+# 15 - pega a capa do volume
+
+# 16 - pega o isbn do volume
+
+# 17 - faz novamente até coletar todos os volumes
+
+# 18 - cria o manga no banco de dados
+
+# 19 - coloca seus respectivos volumes
