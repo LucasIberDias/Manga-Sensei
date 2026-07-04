@@ -139,13 +139,54 @@ qntd_volumes = len(volumes);
 
 print("Quantidade de volumes:", qntd_volumes);
 
-# 14 - entra no primeiro volume
+# A seguir os passos 14, 15, 16 e 17 são realizados
+import re
 
-# 15 - pega a capa do volume
+# Coleta os links de todos os volumes antes de navegar (evita stale element)
+elementos_volumes = driver.find_elements(By.CSS_SELECTOR, ".box-produto .img-capa a")
+links_volumes = [v.get_attribute("href") for v in elementos_volumes]
 
-# 16 - pega o isbn do volume
+lista_volumes = []
 
-# 17 - faz novamente até coletar todos os volumes
+for i, link_volume in enumerate(links_volumes):
+
+    # 14 - entra no volume
+    driver.get(link_volume)
+
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.TAG_NAME, "body"))
+    )
+    sleep(2)
+
+    # 15 - pega a capa do volume (sempre a segunda, se existir)
+    imagens_volume = driver.find_elements(By.CSS_SELECTOR, "button.owl-thumb-item img")
+
+    if not imagens_volume:
+        capa_volume = ""
+    elif len(imagens_volume) >= 2:
+        capa_volume = imagens_volume[1].get_attribute("src")
+    else:
+        capa_volume = imagens_volume[0].get_attribute("src")
+
+    # 16 - pega o isbn do volume (apenas números)
+    isbn_bruto = driver.find_elements(By.XPATH, "//li[strong[contains(text(),'ISBN')]]")
+    isbn_texto = isbn_bruto[0].text if isbn_bruto else ""
+    isbn = re.sub(r"\D", "", isbn_texto)
+
+    print(f"Volume {i+1} -> Capa: {capa_volume} | ISBN: {isbn}")
+
+    lista_volumes.append({
+        "capa": capa_volume,
+        "isbn": isbn
+    })
+
+    # 17 - volta para a lista de volumes
+    driver.back()
+
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.CLASS_NAME, "box-produto"))
+    )
+    sleep(2)
 
 # 18 - cria o manga no banco de dados
 
