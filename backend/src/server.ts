@@ -121,3 +121,66 @@ app.post("/cadastro", async (req, res) => {
         });
     }
 });
+
+app.post("/coletar", async (req, res) => {
+    try {
+        const manga = req.body;
+
+        const resultado = await pool.query(
+            `
+            INSERT INTO mangas
+            (
+                titulo,
+                capa,
+                autor,
+                editora,
+                quantidade_volumes,
+                demografia
+            )
+            VALUES ($1, $2, $3, $4, $5, $6)
+            RETURNING *
+            `,
+            [
+                manga.titulo,
+                manga.capa,
+                manga.autor,
+                manga.editora,
+                manga.quantidadeVolumes,
+                manga.demografia
+            ]
+        );
+
+        const mangaSalvo = resultado.rows[0];
+
+        for (const volume of manga.volumes) {
+            await pool.query(
+                `
+                INSERT INTO volumes
+                (
+                    manga_id,
+                    isbn,
+                    capa
+                )
+                VALUES ($1, $2, $3)
+                `,
+                [
+                    mangaSalvo.id,
+                    volume.isbn,
+                    volume.capa
+                ]
+            );
+        }
+
+        return res.status(201).json({
+            message: "Manga salvo com sucesso",
+            id: mangaSalvo.id
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        return res.status(500).json({
+            message: "Erro ao salvar manga"
+        });
+    }
+});
