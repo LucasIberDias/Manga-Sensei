@@ -124,7 +124,12 @@ WebDriverWait(driver, 10).until(
 sleep(2)
 
 # Elementos com o número do volume (badge azul "#1", "#2", etc. acima da capa)
-elementos_numero_volume = driver.find_elements(By.CLASS_NAME, "num-edicao")
+# Filtramos apenas os visíveis, pois alguns sites duplicam elementos no HTML
+# para versões desktop/mobile, deixando um deles escondido via CSS
+elementos_numero_volume = [
+    el for el in driver.find_elements(By.CLASS_NAME, "num-edicao")
+    if el.is_displayed()
+]
 qntd_volumes = len(elementos_numero_volume)
 
 # Extrai o número do volume, mantendo letras (edições especiais, ex: "10A")
@@ -135,15 +140,31 @@ numeros_volumes = [
 ]
 
 # Coleta os links de todos os volumes (na mesma ordem dos números acima)
-elementos_volumes = driver.find_elements(
-    By.CSS_SELECTOR,
-    ".box-produto .img-capa a"
-)
+elementos_volumes = [
+    el for el in driver.find_elements(By.CSS_SELECTOR, ".box-produto .img-capa a")
+    if el.is_displayed()
+]
 
 links_volumes = [
     volume.get_attribute("href")
     for volume in elementos_volumes
 ]
+
+# Remove duplicatas (alguns sites renderizam o mesmo produto duas vezes,
+# por exemplo uma versão para desktop e outra para mobile escondida via CSS)
+pares_vistos = set()
+numeros_volumes_unicos = []
+links_volumes_unicos = []
+
+for numero, link in zip(numeros_volumes, links_volumes):
+    chave = (numero, link)
+    if chave not in pares_vistos:
+        pares_vistos.add(chave)
+        numeros_volumes_unicos.append(numero)
+        links_volumes_unicos.append(link)
+
+numeros_volumes = numeros_volumes_unicos
+links_volumes = links_volumes_unicos
 
 lista_volumes = []
 

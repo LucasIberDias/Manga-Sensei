@@ -73,7 +73,7 @@ app.post("/cadastro", async (req, res) => {
     } = req.body;
 
     try {
-        if (!nome_usuario || !email || !senha_hash) {
+        if(!nome_usuario || !email || !senha_hash){
             return res.status(400).json({
                 erro: "Preencha todos os campos."
             });
@@ -97,7 +97,7 @@ app.post("/cadastro", async (req, res) => {
         }
 
         const resultado = await pool.query(
-            `
+        `
         INSERT INTO usuario
         (nome_usuario, email, senha_hash)
         VALUES ($1, $2, $3)
@@ -109,7 +109,7 @@ app.post("/cadastro", async (req, res) => {
                 senha_hash,
             ]
         );
-
+        
         res.status(201).json({
             sucesso: "Conta criada com sucesso"
         });
@@ -152,30 +152,45 @@ app.post("/coletar", async (req, res) => {
 
         const mangaSalvo = resultado.rows[0];
 
+        const volumesComErro: { numero: any; motivo: string }[] = [];
+
         for (const volume of manga.volumes) {
-            await pool.query(
-                `
-                INSERT INTO volume_manga
-                (
-                    manga_id,
-                    numero_volume,
-                    isbn,
-                    capa_volume
-                )
-                VALUES ($1, $2, $3, $4)
-                `,
-                [
-                    mangaSalvo.id,
-                    volume.numero,
-                    volume.isbn,
-                    volume.capa
-                ]
-            );
+            try {
+                await pool.query(
+                    `
+                    INSERT INTO volume_manga
+                    (
+                        manga_id,
+                        numero_volume,
+                        isbn,
+                        capa_volume
+                    )
+                    VALUES ($1, $2, $3, $4)
+                    ON CONFLICT (manga_id, numero_volume) DO NOTHING
+                    `,
+                    [
+                        mangaSalvo.id,
+                        volume.numero,
+                        volume.isbn,
+                        volume.capa
+                    ]
+                );
+            } catch (erroVolume: any) {
+                console.error(
+                    `Erro ao salvar volume ${volume.numero}:`,
+                    erroVolume.message
+                );
+                volumesComErro.push({
+                    numero: volume.numero,
+                    motivo: erroVolume.message
+                });
+            }
         }
 
         return res.status(201).json({
             message: "Manga salvo com sucesso",
-            id: mangaSalvo.id
+            id: mangaSalvo.id,
+            volumesComErro
         });
 
     } catch (error) {
