@@ -1,23 +1,4 @@
-# 1 - Entra no site
-# 2 - Entra na barra de pesquisa
-# 3 - Coloca o mangá pesquisado
-# 4 - Entra no primeiro mangá
-# 5 - coloca todas as edições
-# 6 - pega o titulo do mangá
-# 7 - coloca em ordem crescente
-# 8 - entra no primeiro mangá
-# 9 - pega capa
-# 10 - pega autor
-# 11 - pega editora
-# 12 - pega a demografia
-# 13 - pega a quantidade de volumes
-# 14 - entra no primeiro volume
-# 15 - pega a capa do volume
-# 16 - pega o isbn do volume
-# 17 - faz novamente até coletar todos os volumes
-
 import re
-import json
 import requests
 
 from selenium import webdriver
@@ -142,10 +123,18 @@ WebDriverWait(driver, 10).until(
 
 sleep(2)
 
-volumes = driver.find_elements(By.CLASS_NAME, "num-edicao")
-qntd_volumes = len(volumes)
+# Elementos com o número do volume (badge azul "#1", "#2", etc. acima da capa)
+elementos_numero_volume = driver.find_elements(By.CLASS_NAME, "num-edicao")
+qntd_volumes = len(elementos_numero_volume)
 
-# Coleta os links de todos os volumes
+# Extrai o número do volume, mantendo letras (edições especiais, ex: "10A")
+# Remove apenas símbolos como "#" e espaços, mas preserva letras e dígitos
+numeros_volumes = [
+    re.sub(r"[^A-Za-z0-9]", "", numero.text.strip())
+    for numero in elementos_numero_volume
+]
+
+# Coleta os links de todos os volumes (na mesma ordem dos números acima)
 elementos_volumes = driver.find_elements(
     By.CSS_SELECTOR,
     ".box-produto .img-capa a"
@@ -159,7 +148,7 @@ links_volumes = [
 lista_volumes = []
 
 # 14, 15, 16 e 17
-for link_volume in links_volumes:
+for numero_volume, link_volume in zip(numeros_volumes, links_volumes):
 
     # Entra no volume
     driver.get(link_volume)
@@ -193,6 +182,7 @@ for link_volume in links_volumes:
     isbn = re.sub(r"\D", "", isbn_texto)
 
     lista_volumes.append({
+        "numero": numero_volume,
         "capa": capa_volume,
         "isbn": isbn
     })

@@ -73,7 +73,7 @@ app.post("/cadastro", async (req, res) => {
     } = req.body;
 
     try {
-        if(!nome_usuario || !email || !senha_hash){
+        if (!nome_usuario || !email || !senha_hash) {
             return res.status(400).json({
                 erro: "Preencha todos os campos."
             });
@@ -97,7 +97,7 @@ app.post("/cadastro", async (req, res) => {
         }
 
         const resultado = await pool.query(
-        `
+            `
         INSERT INTO usuario
         (nome_usuario, email, senha_hash)
         VALUES ($1, $2, $3)
@@ -109,7 +109,7 @@ app.post("/cadastro", async (req, res) => {
                 senha_hash,
             ]
         );
-        
+
         res.status(201).json({
             sucesso: "Conta criada com sucesso"
         });
@@ -128,7 +128,7 @@ app.post("/coletar", async (req, res) => {
 
         const resultado = await pool.query(
             `
-            INSERT INTO mangas
+            INSERT INTO manga
             (
                 titulo,
                 capa,
@@ -155,16 +155,18 @@ app.post("/coletar", async (req, res) => {
         for (const volume of manga.volumes) {
             await pool.query(
                 `
-                INSERT INTO volumes
+                INSERT INTO volume_manga
                 (
                     manga_id,
+                    numero_volume,
                     isbn,
-                    capa
+                    capa_volume
                 )
-                VALUES ($1, $2, $3)
+                VALUES ($1, $2, $3, $4)
                 `,
                 [
                     mangaSalvo.id,
+                    volume.numero,
                     volume.isbn,
                     volume.capa
                 ]
