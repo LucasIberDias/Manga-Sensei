@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { pesquisarManga } from "../controllers/manga.controller";
+import { pesquisarManga } from "../controllers/mangaController";
 
 const router = Router();
 
-router.post("/coletar", pesquisarManga);
+router.get("/mangas", pesquisarManga);
 
 export default router;

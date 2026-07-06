@@ -36,7 +36,7 @@ export default function Login() {
     );
 
     async function fazerLogin() {
-        const resposta = await fetch("http://localhost:3000/login", {
+        const resposta = await fetch("http://localhost:3000/auth/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

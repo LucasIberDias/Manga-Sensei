@@ -1,5 +1,6 @@
 import re
-import requests
+import sys
+import json
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -7,9 +8,23 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions as EC
 from time import sleep
+from selenium.webdriver.chrome.options import Options
+
+def _opcoes_headless():
+    opcoes = Options()
+    opcoes.add_argument("--headless=new")
+    opcoes.add_argument("--disable-gpu")
+    opcoes.add_argument("--no-sandbox")
+    return opcoes
+
+if len(sys.argv) < 2:
+    print(json.dumps({"erro": "Nome do mangá não informado"}))
+    sys.exit(1)
+
+nome_pesquisado = sys.argv[1]
 
 # 1 - Entra no site
-driver = webdriver.Chrome()
+driver = webdriver.Chrome(options=_opcoes_headless())  # ver nota abaixo
 driver.get("https://mundosinfinitos.com.br/")
 sleep(2)
 
@@ -17,8 +32,9 @@ sleep(2)
 barra = driver.find_element(By.ID, "search2_txt")
 
 # 3 - Coloca o mangá pesquisado
-barra.send_keys(input("Digite o nome do manga:\n"))
+barra.send_keys(nome_pesquisado)
 barra.send_keys(Keys.ENTER)
+
 
 WebDriverWait(driver, 10).until(
     EC.presence_of_element_located((By.CLASS_NAME, "box-produto"))
@@ -227,11 +243,6 @@ dados_manga = {
     "volumes": lista_volumes
 }
 
-response = requests.post(
-    "http://localhost:3000/coletar",
-    json=dados_manga
-)
-
-print(response.status_code)
+print(json.dumps(dados_manga, ensure_ascii=False))
 
 driver.quit()

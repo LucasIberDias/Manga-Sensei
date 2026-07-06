@@ -50,7 +50,7 @@ export default function Cadastro() {
             return;
         }
 
-        const resposta = await fetch("http://localhost:3000/cadastro", {
+        const resposta = await fetch("http://localhost:3000/auth/cadastro", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -58,7 +58,7 @@ export default function Cadastro() {
             body: JSON.stringify({
                 nome_usuario: usuario,
                 email: email.toLowerCase(),
-                senha_hash: senha
+                senha: senha
             }),
         });
 
