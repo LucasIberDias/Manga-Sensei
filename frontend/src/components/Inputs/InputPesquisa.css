@@ -1,0 +1,45 @@
+.input-pesquisa {
+    width: 100%;
+    max-width: 220px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 0 16px;
+
+    background: #FDF2E7;
+    border-radius: 14px;
+    border: 2px solid transparent;
+
+    transition: .2s ease;
+}
+
+.input-pesquisa:focus-within {
+    border-color: #A56B3D;
+}
+
+.input-pesquisa svg {
+    font-size: 22px;
+    color: #6B4423;
+    flex-shrink: 0;
+}
+
+.input-pesquisa input {
+    width: 100%;
+    height: 100%;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    font-size: 16px;
+    color: #6B4423;
+    font-family: inherit;
+}
+
+.input-pesquisa input::placeholder {
+    color: #8B5A35;
+}
