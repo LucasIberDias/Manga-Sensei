@@ -130,6 +130,14 @@ demografia = next(
     "Desconhecida"
 )
 
+# 12.1 - Pega gêneros (pode haver mais de um, então coletamos todos)
+generos_elementos = driver.find_elements(
+    By.XPATH,
+    "//li[strong[contains(text(),'Gênero')]]/a"
+)
+
+generos = [g.text.strip() for g in generos_elementos if g.text.strip()]
+
 # 13 - Pega quantidade de volumes
 driver.back()
 
@@ -239,6 +247,7 @@ dados_manga = {
     "autor": autor,
     "editora": editora,
     "demografia": demografia,
+    "generos": generos,
     "quantidadeVolumes": qntd_volumes,
     "volumes": lista_volumes
 }
