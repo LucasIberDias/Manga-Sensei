@@ -1,0 +1,8 @@
+.exploracao-page {
+    display: flex;
+}
+
+.itens-superior {
+    margin-left: 30px;
+    padding: 5px;
+}

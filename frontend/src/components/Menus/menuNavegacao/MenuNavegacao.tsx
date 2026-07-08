@@ -16,12 +16,12 @@ export default function menuNavegacao() {
             <Logo />
 
             <div className="links">
-                <LinkNavegacao destino="inicio" texto="Inicio" Icon={FaHouseUser} />
-                <LinkNavegacao destino="colecao" texto="Coleção" Icon={FaBookOpen} />
-                <LinkNavegacao destino="exploracao" texto="Exploração" Icon={SiWpexplorer} />
-                <LinkNavegacao destino="marketplace" texto="Marketplace" Icon={FaShop} />
-                <LinkNavegacao destino="relatorios" texto="Relatórios" Icon={SiGooglesheets} />
-                <LinkNavegacao destino="configuracoes" texto="Configurações" Icon={IoMdSettings} />
+                <LinkNavegacao destino="/inicio" texto="Inicio" Icon={FaHouseUser} />
+                <LinkNavegacao destino="/colecao" texto="Coleção" Icon={FaBookOpen} />
+                <LinkNavegacao destino="/exploracao" texto="Exploração" Icon={SiWpexplorer} />
+                <LinkNavegacao destino="/marketplace" texto="Marketplace" Icon={FaShop} />
+                <LinkNavegacao destino="/relatorios" texto="Relatórios" Icon={SiGooglesheets} />
+                <LinkNavegacao destino="/configuracoes" texto="Configurações" Icon={IoMdSettings} />
             </div>
 
             <div className="perfil">
