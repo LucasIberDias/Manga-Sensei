@@ -1,5 +1,5 @@
 import Input from "../../components/Inputs/Input";
-import Button from "../../components/Buttons/Buttons";
+import Button from "../../components/Buttons/Button";
 import ButtonLink from "../../components/Buttons/ButtonNavegacao";
 import Logo from "../../components/Logo";
 import "./Login.css";

@@ -24,7 +24,7 @@ if len(sys.argv) < 2:
 nome_pesquisado = sys.argv[1]
 
 # 1 - Entra no site
-driver = webdriver.Chrome(options=_opcoes_headless())  # ver nota abaixo
+driver = webdriver.Chrome(options=_opcoes_headless()) 
 driver.get("https://mundosinfinitos.com.br/")
 sleep(2)
 
