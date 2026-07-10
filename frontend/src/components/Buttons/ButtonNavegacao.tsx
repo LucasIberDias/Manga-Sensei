@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import "./Buttons.css";
+import "./Button.css";
 
 type ButtonLinkProps = {
     texto: string;

@@ -14,14 +14,14 @@
     transition: all 0.2s ease;
 }
 
-.link-navegacao:hover {
+.link-navegacao:hover,
+.link-navegacao.ativo {
     background-color: #feddae;
     color: #614030;
 
-    padding-left: 5px; 
+    padding-left: 5px;
 
     border-radius: 15px;
     border-right: 2px solid #614030;
     box-shadow: 2px 2px 4px #614030;
 }
-

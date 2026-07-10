@@ -16,6 +16,6 @@ app.get("/", (req, res) => {
 });
 
 app.use("/auth", authRoutes);
-app.use("/manga", mangaRoutes);
+app.use("/", mangaRoutes);
 
 export default app;

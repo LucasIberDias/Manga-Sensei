@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./LinkNavegacao.css";
 import type { IconType } from "react-icons";
 
@@ -14,9 +14,14 @@ export default function LinkNavegacao({
     Icon,
 }: LinkProps) {
     return (
-        <Link to={destino} className="link-navegacao">
-            {Icon && <Icon/>}
+        <NavLink
+            to={destino}
+            className={({ isActive }) =>
+                isActive ? "link-navegacao ativo" : "link-navegacao"
+            }
+        >
+            {Icon && <Icon />}
             <span>{texto}</span>
-        </Link>
+        </NavLink>
     );
 }

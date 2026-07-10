@@ -22,6 +22,14 @@ interface MangaScraped {
     erro?: string;
 }
 
+interface explorarMangas {
+    titulo: string;
+    capa: string;
+    editora: string;
+    demografia: string;
+    quantidadeVolumes: number;
+}
+
 const buscarMangaNoScraper = (nomeManga: string): Promise<MangaScraped> => {
     return new Promise((resolve, reject) => {
         const scriptPath = path.join(__dirname, "..", "scripts", "scraper.py");
@@ -93,7 +101,7 @@ export const pesquisarManga = async (req: Request, res: Response) => {
         const nome = nomeManga.trim();
 
         const mangaExistente = await client.query(
-            "SELECT * FROM mangas WHERE LOWER(titulo) = LOWER($1)",
+            "SELECT * FROM manga WHERE LOWER(titulo) = LOWER($1)",
             [nome]
         );
 
@@ -116,7 +124,7 @@ export const pesquisarManga = async (req: Request, res: Response) => {
         const mangaScraped = await buscarMangaNoScraper(nome);
 
         const jaExiste = await client.query(
-            "SELECT id FROM mangas WHERE LOWER(titulo) = LOWER($1)",
+            "SELECT id FROM manga WHERE LOWER(titulo) = LOWER($1)",
             [mangaScraped.titulo]
         );
 
@@ -126,7 +134,7 @@ export const pesquisarManga = async (req: Request, res: Response) => {
             await client.query("BEGIN");
 
             const insercaoManga = await client.query(
-                `INSERT INTO mangas (titulo, capa, autor, editora, demografia, quantidade_volumes)
+                `INSERT INTO manga (titulo, capa, autor, editora, demografia, quantidade_volumes)
                  VALUES ($1, $2, $3, $4, $5, $6)
                  RETURNING *`,
                 [
@@ -170,9 +178,28 @@ export const pesquisarManga = async (req: Request, res: Response) => {
             manga: { ...mangaSalvo, volumes: mangaScraped.volumes, generos: mangaScraped.generos }
         });
     } catch (erro) {
-        await client.query("ROLLBACK").catch(() => {});
+        await client.query("ROLLBACK").catch(() => { });
         console.error(erro);
         return res.status(500).json({ erro: "Erro ao pesquisar Mangá" });
+    } finally {
+        client.release();
+    }
+};
+
+export const explorarMangas = async (req: Request, res: Response) => {
+    const client = await pool.connect();
+
+    try {
+        const resultado = await client.query(
+            "SELECT * FROM manga"
+        );
+
+        return res.status(200).json(resultado.rows);
+
+    } catch (erro) {
+        return res.status(500).json({
+            erro: "Erro ao carregar exploração."
+        });
     } finally {
         client.release();
     }

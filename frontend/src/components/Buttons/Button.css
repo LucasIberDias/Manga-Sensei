@@ -1,17 +1,27 @@
 .button {
-    width: 265px;
-    padding: 12px;
+    width: 260px;
+    padding: 12px 18px;
+    border: 1px solid;
     border-radius: 20px;
-    border: solid 1px;
     cursor: pointer;
-
-    font-weight: 800;
 
     display: flex;
     justify-content: center;
     align-items: center;
-    text-decoration: none;
+    gap: 8px;
+
     box-sizing: border-box;
+    text-decoration: none;
+
+    font-size: 16px;
+    font-weight: 700;
+
+    transition: all 0.2s ease;
+}
+
+.button svg {
+    font-size: 20px;
+    flex-shrink: 0;
 }
 
 .primaria {
@@ -24,4 +34,16 @@
     background-color: #5c3825;
     color: #f9e6c9;
     border-color: #f3ba6e;
+}
+
+.terciaria {
+    background-color: #5c3825;
+    color: #f9e6c9;
+    border-color: #f3ba6e;
+    border-radius: 15px;
+}
+
+.button:hover {
+    filter: brightness(1.30);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
 }
