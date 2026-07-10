@@ -62,7 +62,7 @@ export default function Exploracao() {
 
         const timer = setTimeout(() => {
             pesquisarManga(pesquisa);
-        }, 500);
+        }, 1000);
 
 
         return () => clearTimeout(timer);

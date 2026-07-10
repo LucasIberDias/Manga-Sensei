@@ -79,7 +79,7 @@ const obterOuCriarGenero = async (client: PoolClient, nomeGenero: string): Promi
 const buscarGenerosDoManga = async (client: PoolClient, mangaId: number): Promise<string[]> => {
     const resultado = await client.query(
         `SELECT g.nome FROM generos g
-         INNER JOIN mangas_generos mg ON mg.genero_id = g.id
+         INNER JOIN manga_generos mg ON mg.genero_id = g.id
          WHERE mg.manga_id = $1
          ORDER BY g.nome`,
         [mangaId]
@@ -109,7 +109,7 @@ export const pesquisarManga = async (req: Request, res: Response) => {
             const manga = mangaExistente.rows[0];
 
             const volumes = await client.query(
-                "SELECT numero, capa, isbn FROM volumes WHERE manga_id = $1 ORDER BY numero",
+                "SELECT numero, capa, isbn FROM volume_manga WHERE manga_id = $1 ORDER BY numero",
                 [manga.id]
             );
 
@@ -151,7 +151,7 @@ export const pesquisarManga = async (req: Request, res: Response) => {
 
             for (const volume of mangaScraped.volumes) {
                 await client.query(
-                    `INSERT INTO volumes (manga_id, numero, capa, isbn)
+                    `INSERT INTO volume_manga (manga_id, numero, capa, isbn)
                      VALUES ($1, $2, $3, $4)`,
                     [mangaSalvo.id, volume.numero, volume.capa, volume.isbn]
                 );
@@ -161,7 +161,7 @@ export const pesquisarManga = async (req: Request, res: Response) => {
                 const generoId = await obterOuCriarGenero(client, nomeGenero);
 
                 await client.query(
-                    `INSERT INTO mangas_generos (manga_id, genero_id)
+                    `INSERT INTO manga_generos (manga_id, genero_id)
                      VALUES ($1, $2)
                      ON CONFLICT DO NOTHING`,
                     [mangaSalvo.id, generoId]
