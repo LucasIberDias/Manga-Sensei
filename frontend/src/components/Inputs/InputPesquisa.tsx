@@ -1,19 +1,20 @@
 import { FaSearch } from "react-icons/fa";
 import "./InputPesquisa.css";
 
-type Props = {
+type InputPesquisaProps = {
     value: string;
     onChange: (valor: string) => void;
-    onPesquisar?: () => void;
+    onEnter?: () => void;
 };
 
 export default function InputPesquisa({
     value,
     onChange,
-    onPesquisar
-}: Props) {
+    onEnter,
+}: InputPesquisaProps) {
     return (
         <div className="input-pesquisa">
+
             <FaSearch />
 
             <input
@@ -22,11 +23,12 @@ export default function InputPesquisa({
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
                 onKeyDown={(e) => {
-                    if (e.key === "Enter" && onPesquisar) {
-                        onPesquisar();
+                    if (e.key === "Enter") {
+                        onEnter?.();
                     }
                 }}
             />
+
         </div>
     );
 }
