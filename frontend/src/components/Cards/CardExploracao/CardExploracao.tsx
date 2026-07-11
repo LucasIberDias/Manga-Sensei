@@ -1,31 +1,32 @@
 import "./CardExploracao.css";
 
-type CardExploracaoProps = {
+type Manga = {
+    id: number;
     titulo: string;
     capa: string;
     quantidadeVolumes: number;
 };
 
-export default function CardExploracao({
-    titulo,
-    capa,
-    quantidadeVolumes,
-}: CardExploracaoProps) {
+type CardMangaProps = {
+    manga: Manga;
+};
+
+export default function CardManga({ manga }: CardMangaProps) {
     return (
         <div className="card-manga">
 
             <img
-                src={capa}
-                alt={titulo}
-                className="card-manga-imagem"
+                src={manga.capa}
+                alt={manga.titulo}
+                className="card-manga-capa"
             />
 
             <div className="card-manga-volumes">
-                {quantidadeVolumes} Volumes
+                Vol. {manga.quantidadeVolumes}
             </div>
 
             <h3 className="card-manga-titulo">
-                {titulo}
+                {manga.titulo}
             </h3>
 
         </div>

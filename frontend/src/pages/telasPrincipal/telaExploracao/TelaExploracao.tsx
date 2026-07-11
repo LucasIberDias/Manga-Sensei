@@ -5,84 +5,109 @@ import { FaBarcode } from "react-icons/fa6";
 import MenuNavegacao from "../../../components/Menus/menuNavegacao/MenuNavegacao";
 import InputPesquisa from "../../../components/Inputs/InputPesquisa";
 import Button from "../../../components/Buttons/Button";
+import CategoriaManga from "./../../../components/CategoriaManga/CategoriaManga";
 
 export default function Exploracao() {
+
     const [pesquisa, setPesquisa] = useState("");
-    const [manga, setManga] = useState<any>(null);
 
-    const pesquisarManga = async () => {
-        if (!pesquisa.trim()) {
-            setManga(null);
-            return;
-        }
-
-        try {
-            const resposta = await fetch("http://localhost:3000/pesquisarManga", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    nomeManga: pesquisa,
-                }),
-            });
-
-            if (!resposta.ok) {
-                throw new Error("Erro ao pesquisar mangá.");
-            }
-
-            const dados = await resposta.json();
-            setManga(dados.manga);
-
-        } catch (erro) {
-            console.error("Erro ao pesquisar:", erro);
-        }
-    };
+    const mangasTeste = [
+        {
+            id: 1,
+            titulo: "One Piece",
+            capa: "https://m.media-amazon.com/images/I/81hY6m9jJ4L.jpg",
+            quantidadeVolumes: 111,
+        },
+        {
+            id: 2,
+            titulo: "Blue Lock",
+            capa: "https://m.media-amazon.com/images/I/81TF6fGxQJL.jpg",
+            quantidadeVolumes: 34,
+        },
+        {
+            id: 3,
+            titulo: "Sense Life",
+            capa: "https://m.media-amazon.com/images/I/81H+8VfQJML.jpg",
+            quantidadeVolumes: 2,
+        },
+        {
+            id: 4,
+            titulo: "Betger",
+            capa: "https://m.media-amazon.com/images/I/81TF6fGxQJL.jpg",
+            quantidadeVolumes: 2,
+        },
+        {
+            id: 5,
+            titulo: "Atelier of Witch Hat",
+            capa: "https://m.media-amazon.com/images/I/91s0B6d9S-L.jpg",
+            quantidadeVolumes: 13,
+        },
+        {
+            id: 6,
+            titulo: "Naruto",
+            capa: "https://m.media-amazon.com/images/I/81lN7Jm1V-L.jpg",
+            quantidadeVolumes: 72,
+        },
+    ];
 
     return (
         <div className="exploracao-page">
 
             <MenuNavegacao />
 
-            <div className="itens-superior">
+            <div className="conteudo-exploracao">
 
-                <div className="cabecalho">
+                <div className="itens-superior">
 
-                    <h1>Exploração</h1>
+                    <div className="cabecalho">
 
-                    <div className="acoes-superior">
+                        <div>
+                            <h1>Exploração</h1>
 
-                        <Button
-                            texto="Escanear ISBN"
-                            cor="terciaria"
-                            tipo="button"
-                            Icon={FaBarcode}
-                        />
+                            <p>
+                                Descubra novos mangás para aumentar sua coleção!
+                            </p>
+                        </div>
 
-                        <InputPesquisa
-                            value={pesquisa}
-                            onChange={setPesquisa}
-                            onEnter={pesquisarManga}
-                        />
+                        <div className="acoes-superior">
+
+                            <Button
+                                texto="Escanear ISBN"
+                                cor="terciaria"
+                                tipo="button"
+                                Icon={FaBarcode}
+                            />
+
+                            <InputPesquisa
+                                value={pesquisa}
+                                onChange={setPesquisa}
+                            />
+
+                        </div>
 
                     </div>
 
                 </div>
 
-                <p>
-                    Explore novos mundos e encontre seu próximo mangá favorito.
-                </p>
+                <CategoriaManga
+                    titulo="Shounen"
+                    mangas={mangasTeste}
+                />
 
-                {manga && (
-                    <div style={{ marginTop: "20px" }}>
-                        <h2>{manga.titulo}</h2>
-                        <img
-                            src={manga.capa}
-                            alt={manga.titulo}
-                            width={180}
-                        />
-                    </div>
-                )}
+                <CategoriaManga
+                    titulo="Seinen"
+                    mangas={mangasTeste}
+                />
+
+                <CategoriaManga
+                    titulo="Romance"
+                    mangas={mangasTeste}
+                />
+
+                <CategoriaManga
+                    titulo="Fantasia"
+                    mangas={mangasTeste}
+                />
 
             </div>
 

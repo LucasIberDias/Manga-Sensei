@@ -109,7 +109,7 @@ export const pesquisarManga = async (req: Request, res: Response) => {
             const manga = mangaExistente.rows[0];
 
             const volumes = await client.query(
-                "SELECT numero, capa, isbn FROM volume_manga WHERE manga_id = $1 ORDER BY numero",
+                "SELECT numero_volume, capa_volume, isbn FROM volume_manga WHERE manga_id = $1 ORDER BY numero_volume",
                 [manga.id]
             );
 
@@ -151,7 +151,7 @@ export const pesquisarManga = async (req: Request, res: Response) => {
 
             for (const volume of mangaScraped.volumes) {
                 await client.query(
-                    `INSERT INTO volume_manga (manga_id, numero, capa, isbn)
+                    `INSERT INTO volume_manga (manga_id, numero_volume, capa_volume, isbn)
                      VALUES ($1, $2, $3, $4)`,
                     [mangaSalvo.id, volume.numero, volume.capa, volume.isbn]
                 );

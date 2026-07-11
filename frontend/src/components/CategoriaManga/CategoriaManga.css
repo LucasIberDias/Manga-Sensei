@@ -1,0 +1,50 @@
+.categoria-manga{
+    width:100%;
+
+    background:#FFF8EF;
+
+    border-radius:24px;
+
+    padding:24px;
+
+    margin-bottom:30px;
+}
+
+.categoria-manga h2{
+    margin-bottom:20px;
+
+    color:#6A4935;
+
+    font-size:2rem;
+}
+
+.categoria-conteudo{
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+}
+
+.categoria-cards{
+    display:flex;
+
+    gap:20px;
+
+    flex:1;
+
+    overflow:hidden;
+}
+
+.botao-proximo{
+    width:60px;
+    height:60px;
+
+    border:none;
+
+    border-radius:50%;
+
+    cursor:pointer;
+
+    font-size:2rem;
+}

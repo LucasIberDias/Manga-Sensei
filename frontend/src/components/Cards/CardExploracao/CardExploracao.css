@@ -1,49 +1,58 @@
-.card-manga {
-    width: 180px;
+.card-manga{
+    width:110px;
 
-    display: flex;
-    flex-direction: column;
+    display:flex;
+    flex-direction:column;
 
-    background: #2c211b;
-    border-radius: 10px;
+    cursor:pointer;
 
-    overflow: hidden;
-
-    cursor: pointer;
-
-    transition: .2s;
+    transition:.2s;
 }
 
-.card-manga:hover {
-    transform: translateY(-4px);
+.card-manga:hover{
+    transform:scale(1.05);
 }
 
-.card-manga-imagem {
-    width: 100%;
-    height: 260px;
+.card-manga-capa{
+    width:110px;
+    height:155px;
 
-    object-fit: cover;
+    object-fit:cover;
+
+    border-radius:8px;
 }
 
-.card-manga-volumes {
-    text-align: center;
+.card-manga-volumes{
+    margin-top:-28px;
 
-    padding: 8px;
+    align-self:flex-end;
 
-    background: #4d372d;
-    color: #f8e8c8;
+    padding:2px 8px;
 
-    font-size: .9rem;
-    font-weight: 600;
+    background:#6A4935;
+
+    color:white;
+
+    border-radius:8px 0 8px 0;
+
+    font-size:.75rem;
+
+    font-weight:600;
 }
 
-.card-manga-titulo {
-    padding: 12px;
+.card-manga-titulo{
+    margin-top:8px;
 
-    color: white;
+    font-size:.9rem;
 
-    font-size: 1rem;
-    font-weight: 600;
+    font-weight:600;
 
-    text-align: center;
+    color:#2D2D2D;
+
+    overflow:hidden;
+    text-overflow:ellipsis;
+
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
 }
